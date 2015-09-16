@@ -41,6 +41,7 @@ public class ReadExcel {
                             data[i][j] = cell.getNumericCellValue();
                         } catch (IllegalStateException e) {
                             e.printStackTrace();
+                            //
                         }
                     }
                 }
