@@ -22,31 +22,33 @@ import java.util.Iterator;
  */
 public class ReadExcel {
 
-    public Double[][] getData(String excelFilePath) throws IOException {
+    public Double[] getData(String excelFilePath) throws IOException {
         FileInputStream fis = new FileInputStream(new File(excelFilePath));
 
         Workbook workbook = new XSSFWorkbook(fis);
 
         Sheet firstSheet = workbook.getSheetAt(0);
         int rownum = firstSheet.getLastRowNum();
-        int colnum = firstSheet.getRow(0).getLastCellNum();
-        Double[][] data = new Double[rownum][colnum];
-        for (int i = 0; i < rownum; i++) {
+        int k = 0;
+        // int colnum = firstSheet.getRow(0).getLastCellNum();
+        Double[] data = new Double[rownum];
+        for (int i = 1; i < rownum; i++) {
             Row row = firstSheet.getRow(i);
             if (row != null) {
-                for (int j = 0; j < colnum; j++) {
-                    Cell cell = row.getCell(j);
-                    if (cell != null) {
-                        try {
-                            data[i][j] = cell.getNumericCellValue();
-                        } catch (IllegalStateException e) {
-                            e.printStackTrace();
-                            //
-                        }
+                //for (int j = 0; j < colnum; j++) {
+                Cell cell = row.getCell(1);
+                if (cell.equals("77777")) {
+                    Cell cell1 = row.getCell(3);
+                    try {
+                        data[k] = cell1.getNumericCellValue();
+                        k++;
+                    } catch (IllegalStateException e) {
+                        e.printStackTrace();
                     }
                 }
+
+                }
             }
-        }
         workbook.close();
         fis.close();
         return data;
@@ -57,13 +59,12 @@ public class ReadExcel {
         e.printStackTrace();
     }*/
 
-
     public static void main(String args[]) throws IOException {
 
         String excelFilePath = "C:\\excel.xlsx";
         ReadExcel readExcel = new ReadExcel();
-        Double[][] array1 = readExcel.getData(excelFilePath);
-        System.out.println(Arrays.deepToString(array1));
+        Double[] array1 = readExcel.getData(excelFilePath);
+        //System.out.println();
     }
 
 }
